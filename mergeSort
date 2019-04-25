@@ -1,0 +1,115 @@
+// merge_sort.cpp
+//O(nlogn)
+#include<iostream>
+#include<ctime>
+#include<limits>
+
+#define SIZE 19
+#define RANGE 99//only,, :-p
+
+//namespace preferred for the snippet size programs
+using namespace std;
+
+void printSequence(int arr[] , int size = SIZE ) {	
+	for( int  i = 0 ; i < size ; ++i )	{ 
+		cout << arr[i] << " ";
+	}
+	cout<<"\n";
+}
+
+void merge( int arr[], int beg, int mid, int end ) {
+
+	// fetch size for the two arrays
+	int len1 = mid - beg +1; 	
+	int len2 = end - mid;	
+	// if we dont include '+1' here, both len1 and len2 would give length exclusive of mid element
+
+	//arrays for the first and second segment, here '+1' is the incremental length for placing the Sentinal value
+	int* partition1 = new int[len1 +1];
+	int* partition2 = new int[len2 +1];
+
+	//copy values into respective temp. arrays
+	for ( int tmp = 0; tmp < len1; tmp++ ) {
+		partition1[tmp] = arr[tmp + beg];
+		cout << partition1[tmp] << " ";	
+	}
+	cout << "-+- ";
+	for ( int tmp = 0; tmp < len2; tmp++ ) {
+		partition2[tmp] = arr[tmp + mid +1];
+		cout << partition2[tmp] << " "; 
+	}
+	
+	//placing the Sentinal
+	partition1[len1] = partition2[len2] = INT_MAX;   // sentinal value helps when size of either array turns out '0' 
+	
+	int i ,j, k;
+	//index for traversing the two temporary arrays
+	i = j = 0;
+	//, one for the main array
+	k = beg;
+
+	while( i < len1 && j < len2 ) {
+		//iterate to compare the two exposed values from both arrays
+		if( partition1[i] <= partition2[j] ) {
+			arr[k] = partition1[i];
+			i++;
+		}
+		else {
+			arr[k] = partition2[j];
+			j++;
+		}
+		k++;
+	}
+
+	//in case any array retains one/more element(s), post operation
+	if( i < len1 )
+		while ( i < len1 ) {
+			arr[k] = partition1[i++];
+			k++;	
+		}
+	if( j < len2 )
+		while ( j < len2 ) {
+			arr[k] = partition2[j++];
+			k++;
+		}
+	cout << endl;	
+}
+
+void mergeSort( int arr[], int beg, int end) {
+	//terminating cond. for partitioning/segmentation
+	if( beg < end ) {
+		
+		int mid = beg + ( end - beg ) /2;	//to avoid overflow
+		
+		//repeatedly break array into unitary size blocks i.e, size = 1
+		mergeSort( arr, beg, mid );
+		mergeSort( arr, mid +1, end );
+
+		//function to combine the parted segments/arrays
+		merge( arr, beg, mid, end );
+	}
+}
+
+int main() 
+{	
+	srand( time(nullptr) ); //seeding the random number generator
+	//YES!! it seeds as per compile time
+
+	int arr[SIZE];
+
+	for( int tmp = 0; tmp < SIZE; tmp++ )
+		arr[tmp] = rand() % RANGE; // increase range for larger numbers
+	
+	printSequence( arr );
+	cout << endl;	
+
+	mergeSort( arr, 0, SIZE-1 );
+
+	cout << endl;
+	printSequence( arr );
+	
+	system("pause");
+	//comment out above codeline, for non MSVC compiler
+	
+	return 0;
+}
