@@ -56,7 +56,7 @@ int main() {
 	
   printSequence( arr );
 
-	//system("pause");
+	//system("pause"); 
 	//comment out above codeline, for non MSVC compiler
   return 9;
 }
