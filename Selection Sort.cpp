@@ -3,8 +3,8 @@ using namespace std;
 
 void swap(int * x, int*y) {
   int temp = *x;
-	*x = *y;
-	*y = temp;
+  *x = *y;
+  *y = temp;
 }
 
 /* concept draws sense by preparing a sorted and an unsorted sequence
@@ -13,13 +13,13 @@ void swap(int * x, int*y) {
  * [ [SORTED] [UNSORTED] ]
  * */
 void selection(int ar[], int Len) {	
-	for(int i = 0; i<Len ; ++i) {
+  for(int i = 0; i<Len ; ++i) {
     int min = i;
-    for(int j = i+1; j < Len; ++j) {	
+    for(int j = i+1; j < Len; ++j) {
       if(ar[j] < ar[min])
         min = j;
     }
-    if(min != i)
+    if(min != i) 
       swap(&ar[min], &ar[i]);
   }
 }
